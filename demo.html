@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCP My Life · Demonstração</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --brand: #4f46e5; }
+  html, body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { background: #fafafa; }
+  .num { font-variant-numeric: tabular-nums; }
+  .phone-frame {
+    width: 390px; height: 780px; border-radius: 44px;
+    background: #0a0a0a; padding: 12px; box-shadow: 0 30px 80px -20px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.08);
+    position: relative;
+  }
+  .phone-frame::before {
+    content: ''; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 32px; background: #0a0a0a; border-radius: 20px; z-index: 20;
+  }
+  .phone-screen {
+    width: 100%; height: 100%; border-radius: 32px; background: #fff; overflow: hidden;
+    position: relative;
+  }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+  .stage-line { background: linear-gradient(180deg, #e5e7eb 0%, #e5e7eb 100%); }
+</style>
+</head>
+<body class="text-neutral-900" x-data="app()" x-cloak>
+
+<!-- ============ TOP BAR (só visível para demonstração, some no produto final) ============ -->
+<div class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">P</div>
+      <div>
+        <div class="text-sm font-semibold">PCP My Life</div>
+        <div class="text-xs text-neutral-500">Demonstração · Coleção Fev/2026</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-1 bg-neutral-100 rounded-lg p-1">
+      <button @click="view='dashboard'" :class="view==='dashboard' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500'" class="px-3 py-1.5 text-sm font-medium rounded-md transition">Dashboard (Luiz)</button>
+      <button @click="view='gestor'" :class="view==='gestor' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500'" class="px-3 py-1.5 text-sm font-medium rounded-md transition">Gestor (Mobile)</button>
+      <button @click="view='whatsapp'" :class="view==='whatsapp' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500'" class="px-3 py-1.5 text-sm font-medium rounded-md transition">Alertas WhatsApp</button>
+    </div>
+    <div class="text-xs text-neutral-500">Clique nos modelos e etapas · Dados reais da sua planilha</div>
+  </div>
+</div>
+
+<!-- ================================================================================ -->
+<!-- ============================== VIEW 1: DASHBOARD LUIZ ========================== -->
+<!-- ================================================================================ -->
+<div x-show="view==='dashboard'" class="max-w-7xl mx-auto px-6 py-8">
+
+  <!-- Cabeçalho -->
+  <div class="flex items-end justify-between mb-8">
+    <div>
+      <div class="text-sm text-neutral-500 mb-1">Terça-feira, 15 de Julho</div>
+      <h1 class="text-3xl font-bold tracking-tight">Bom dia, Luiz.</h1>
+      <div class="text-neutral-600 mt-1">3 modelos precisam da sua atenção hoje.</div>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-neutral-500">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span>
+      Atualizado em tempo real · último dado há 3 min
+    </div>
+  </div>
+
+  <!-- Semáforo grande -->
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-sm font-medium text-neutral-500">Em risco crítico</div>
+        <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <div class="text-5xl font-bold num text-red-600">3</div>
+        <div class="text-sm text-neutral-500">modelos</div>
+      </div>
+      <div class="text-xs text-neutral-500 mt-2">R$ 8.155 parados em produção</div>
+    </div>
+    <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-sm font-medium text-neutral-500">Atenção (2–4 dias)</div>
+        <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <div class="text-5xl font-bold num text-amber-600">7</div>
+        <div class="text-sm text-neutral-500">modelos</div>
+      </div>
+      <div class="text-xs text-neutral-500 mt-2">Previsão de atraso baseada no ritmo atual</div>
+    </div>
+    <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-sm font-medium text-neutral-500">Dentro do prazo</div>
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <div class="text-5xl font-bold num text-emerald-600">42</div>
+        <div class="text-sm text-neutral-500">modelos</div>
+      </div>
+      <div class="text-xs text-neutral-500 mt-2">81% da coleção Fev/2026</div>
+    </div>
+  </div>
+
+  <!-- Grid principal -->
+  <div class="grid grid-cols-3 gap-6">
+
+    <!-- Coluna esquerda: Críticos -->
+    <div class="col-span-2 space-y-6">
+
+      <!-- Modelos em risco -->
+      <div class="rounded-2xl bg-white border border-neutral-200 overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
+          <div>
+            <h2 class="text-lg font-semibold">Precisam de decisão hoje</h2>
+            <div class="text-xs text-neutral-500 mt-0.5">Ordenados por dinheiro parado</div>
+          </div>
+          <button class="text-sm text-indigo-600 font-medium hover:underline">Ver todos</button>
+        </div>
+        <div class="divide-y divide-neutral-100">
+          <template x-for="m in criticos" :key="m.ref">
+            <div class="px-6 py-4 flex items-center gap-4 hover:bg-neutral-50 cursor-pointer">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold"
+                :class="m.severidade==='alta' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'">
+                <span x-text="m.severidade==='alta' ? '!' : '·'"></span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <div class="font-semibold" x-text="m.nome"></div>
+                  <div class="text-xs text-neutral-400 num" x-text="'Ref ' + m.ref"></div>
+                </div>
+                <div class="text-sm text-neutral-600 mt-0.5">
+                  <span x-text="m.etapa"></span> · há <span class="font-medium" x-text="m.diasEtapa"></span> dias
+                  · previsto sair em <span x-text="m.previsto"></span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-semibold num" :class="m.severidade==='alta' ? 'text-red-600' : 'text-amber-600'">
+                  R$ <span x-text="m.valorParado.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})"></span>
+                </div>
+                <div class="text-xs text-neutral-500">parados</div>
+              </div>
+              <svg class="w-5 h-5 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Modelos por etapa -->
+      <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-lg font-semibold">Modelos por etapa</h2>
+            <div class="text-xs text-neutral-500 mt-0.5">Coleção Fev/2026 · 52 modelos ativos</div>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <template x-for="e in etapasResumo" :key="e.nome">
+            <div class="group">
+              <div class="flex items-center gap-3">
+                <div class="w-32 text-sm font-medium text-neutral-700 shrink-0" x-text="e.nome"></div>
+                <div class="flex-1 h-8 bg-neutral-100 rounded-md relative overflow-hidden">
+                  <div class="absolute inset-y-0 left-0 rounded-md flex items-center px-2 text-xs font-semibold text-white transition"
+                    :class="e.gargalo ? 'bg-red-500' : 'bg-indigo-500'"
+                    :style="'width: ' + (e.count / 15 * 100) + '%'">
+                    <span x-text="e.count" x-show="e.count > 2"></span>
+                  </div>
+                  <div class="absolute inset-y-0 right-2 flex items-center text-xs text-neutral-500" x-show="e.count <= 2">
+                    <span x-text="e.count"></span>
+                  </div>
+                </div>
+                <div class="w-24 text-xs text-neutral-500 shrink-0">
+                  média <span class="font-semibold num" x-text="e.mediaDias"></span> dias
+                </div>
+                <div class="w-4">
+                  <span x-show="e.gargalo" class="text-xs px-1.5 py-0.5 rounded bg-red-50 text-red-600 font-medium">gargalo</span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna direita: Insights -->
+    <div class="space-y-6">
+
+      <!-- Gargalo da semana -->
+      <div class="rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 border border-red-100 p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <div class="text-xs font-semibold text-red-700 uppercase tracking-wide">Gargalo da semana</div>
+        </div>
+        <div class="text-2xl font-bold text-neutral-900 mb-1">Pilotagem</div>
+        <div class="text-sm text-neutral-700 mb-4">Está 80% mais lenta que o planejado.</div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-neutral-600">Média planejada</span>
+            <span class="font-semibold num">5 dias</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-neutral-600">Média real (últimas 4 sem.)</span>
+            <span class="font-semibold num text-red-600">9 dias</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-neutral-600">Modelos aguardando</span>
+            <span class="font-semibold num">6</span>
+          </div>
+        </div>
+        <button class="mt-4 w-full py-2 rounded-lg bg-white text-red-700 border border-red-200 text-sm font-semibold hover:bg-red-50">Ver responsáveis</button>
+      </div>
+
+      <!-- Ritmo da coleção -->
+      <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+        <div class="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-4">Ritmo da coleção</div>
+        <div class="text-3xl font-bold num mb-1">27 <span class="text-base font-medium text-neutral-500">dias</span></div>
+        <div class="text-sm text-neutral-600 mb-4">tempo médio de produção</div>
+        <div class="flex items-center gap-2 text-sm">
+          <div class="flex items-center gap-1 text-emerald-600 font-medium">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/></svg>
+            18% mais rápido
+          </div>
+          <span class="text-neutral-500">que Jan/2026</span>
+        </div>
+        <div class="mt-4 h-16 flex items-end gap-1">
+          <template x-for="(h, i) in [45, 42, 40, 38, 35, 32, 30, 29, 28, 27]" :key="i">
+            <div class="flex-1 rounded-t bg-indigo-100" :class="i === 9 ? 'bg-indigo-500' : ''" :style="'height: ' + (h/45 * 100) + '%'"></div>
+          </template>
+        </div>
+        <div class="flex justify-between text-xs text-neutral-400 mt-1">
+          <span>10 sem atrás</span>
+          <span>hoje</span>
+        </div>
+      </div>
+
+      <!-- Ações rápidas -->
+      <div class="rounded-2xl bg-neutral-900 text-white p-6">
+        <div class="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-3">Aconteceu hoje</div>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5"></div>
+            <div>
+              <span class="font-medium">Vestido Maitê</span> foi liberado para venda
+              <div class="text-xs text-neutral-400 mt-0.5">Há 42 minutos</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5"></div>
+            <div>
+              <span class="font-medium">Calça Heloisa</span> concluiu costura
+              <div class="text-xs text-neutral-400 mt-0.5">Há 2 horas</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5"></div>
+            <div>
+              <span class="font-medium">Vestido Alícia</span> entrou em risco crítico
+              <div class="text-xs text-neutral-400 mt-0.5">Há 3 horas</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5"></div>
+            <div>
+              <span class="font-medium">Blusa Iza</span> voltou pra modelagem (piloto reprovado)
+              <div class="text-xs text-neutral-400 mt-0.5">Há 5 horas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé demo -->
+  <div class="mt-12 pt-6 border-t border-neutral-200 text-center text-xs text-neutral-500">
+    Demonstração com 15 modelos reais da sua planilha PCP MY LIFE_2026.xlsx · Os dados de atraso e valores são simulados para demonstrar o comportamento do sistema.
+  </div>
+</div>
+
+<!-- ================================================================================ -->
+<!-- ============================== VIEW 2: GESTOR MOBILE =========================== -->
+<!-- ================================================================================ -->
+<div x-show="view==='gestor'" class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 gap-10">
+
+  <!-- Lado esquerdo: contexto para Luiz enquanto vê a tela -->
+  <div class="pt-8">
+    <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-3">Tela do gestor de produção</div>
+    <h2 class="text-3xl font-bold tracking-tight mb-4">A entrada de dado que não parece entrada de dado.</h2>
+    <div class="space-y-4 text-neutral-700 leading-relaxed">
+      <p>Cada dia, o gestor abre o app e vê <strong>só o que precisa da atenção dele hoje</strong>. Sem filtro, sem procurar, sem coluna infinita.</p>
+      <p>Concluir uma etapa é <strong>um toque</strong>. A data real é preenchida automaticamente. Sem digitação, sem erro de <span class="font-mono text-sm bg-neutral-100 px-1.5 py-0.5 rounded">45662</span>.</p>
+      <p>Observação pode ser <strong>ditada por voz</strong> direto do celular, mesmo no chão de fábrica.</p>
+      <p>Exceções (voltar piloto pra modelagem, pular compra de tecido) são <strong>botões óbvios</strong>, não menus escondidos.</p>
+    </div>
+    <div class="mt-8 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+      <div class="text-xs font-semibold text-indigo-700 uppercase tracking-wide mb-2">Experimente</div>
+      <ol class="text-sm text-indigo-900 space-y-1.5 list-decimal list-inside">
+        <li>Toque em qualquer modelo da lista</li>
+        <li>Toque em "Concluir etapa" em uma das etapas ativas</li>
+        <li>Veja o modelo avançar automaticamente</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Phone frame -->
+  <div class="flex justify-center">
+    <div class="phone-frame">
+      <div class="phone-screen flex flex-col">
+
+        <!-- Status bar -->
+        <div class="pt-8 pb-2 px-6 flex justify-between text-xs font-semibold text-neutral-900">
+          <span>23:47</span>
+          <div class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 10a1 1 0 011-1h1V7a1 1 0 112 0v2h1a1 1 0 110 2H8v2a1 1 0 11-2 0v-2H5a1 1 0 01-1-1z"/></svg>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.657 5.304a1 1 0 010 1.414L10 14.379l-2.879-2.879a1 1 0 111.414-1.414L10 11.55l6.243-6.243a1 1 0 011.414-.003z"/></svg>
+          </div>
+        </div>
+
+        <!-- LIST VIEW -->
+        <div x-show="!selecionado" class="flex-1 overflow-y-auto hide-scrollbar">
+          <div class="px-6 pt-4 pb-6">
+            <div class="text-xs text-neutral-500 uppercase font-semibold tracking-wide">Terça, 15 Julho</div>
+            <h1 class="text-2xl font-bold mt-1">Hoje</h1>
+            <div class="text-sm text-neutral-600 mt-1"><span class="font-semibold" x-text="modelosHoje.length"></span> modelos aguardando você</div>
+          </div>
+
+          <!-- Filtros -->
+          <div class="flex gap-2 px-6 pb-4 overflow-x-auto hide-scrollbar">
+            <template x-for="f in filtros" :key="f.id">
+              <button @click="filtroAtivo = f.id"
+                :class="filtroAtivo===f.id ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'"
+                class="px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap">
+                <span x-text="f.label"></span>
+                <span class="ml-1 opacity-70" x-text="'· ' + f.count"></span>
+              </button>
+            </template>
+          </div>
+
+          <!-- Lista -->
+          <div class="divide-y divide-neutral-100">
+            <template x-for="m in modelosFiltrados" :key="m.ref">
+              <button @click="selecionar(m)" class="w-full px-6 py-4 flex items-center gap-3 hover:bg-neutral-50 active:bg-neutral-100 text-left">
+                <div class="w-2 h-14 rounded-full shrink-0"
+                  :class="m.status==='atrasado' ? 'bg-red-500' : m.status==='risco' ? 'bg-amber-500' : 'bg-emerald-500'"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-baseline gap-2">
+                    <div class="font-semibold truncate" x-text="m.nome"></div>
+                    <div class="text-xs text-neutral-400 num shrink-0" x-text="m.ref"></div>
+                  </div>
+                  <div class="text-sm text-neutral-600 truncate mt-0.5">
+                    <span x-text="m.etapa"></span>
+                  </div>
+                  <div class="text-xs mt-1 flex items-center gap-2">
+                    <span :class="m.status==='atrasado' ? 'text-red-600 font-semibold' : m.status==='risco' ? 'text-amber-600 font-semibold' : 'text-neutral-500'">
+                      <span x-show="m.status==='atrasado'" x-text="m.diasAtraso + ' dias atrasado'"></span>
+                      <span x-show="m.status==='risco'">Prazo apertado</span>
+                      <span x-show="m.status==='ok'">No prazo</span>
+                    </span>
+                    <span class="text-neutral-300">·</span>
+                    <span class="text-neutral-500 num" x-text="m.qnt + ' peças'"></span>
+                  </div>
+                </div>
+                <svg class="w-4 h-4 text-neutral-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- DETAIL VIEW -->
+        <div x-show="selecionado" class="flex-1 overflow-y-auto hide-scrollbar" x-transition>
+          <!-- Header -->
+          <div class="sticky top-0 bg-white border-b border-neutral-100 z-10">
+            <div class="px-4 py-3 flex items-center gap-3">
+              <button @click="selecionado = null" class="w-8 h-8 rounded-full hover:bg-neutral-100 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <div class="text-xs text-neutral-500 num" x-text="'Ref ' + (selecionado?.ref || '')"></div>
+                <div class="font-semibold truncate" x-text="selecionado?.nome"></div>
+              </div>
+            </div>
+          </div>
+
+          <template x-if="selecionado">
+            <div class="pb-24">
+              <!-- Info -->
+              <div class="px-6 py-4 bg-neutral-50 border-b border-neutral-100 grid grid-cols-3 gap-3 text-center">
+                <div>
+                  <div class="text-lg font-bold num" x-text="selecionado.qnt"></div>
+                  <div class="text-xs text-neutral-500">peças</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold num" x-text="selecionado.consumo.toString().replace('.',',')"></div>
+                  <div class="text-xs text-neutral-500">m / peça</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold num">R$ <span x-text="Math.round(selecionado.qnt * selecionado.consumo * selecionado.valorMetro).toLocaleString('pt-BR')"></span></div>
+                  <div class="text-xs text-neutral-500">valor total</div>
+                </div>
+              </div>
+
+              <!-- Etapas -->
+              <div class="px-6 py-4">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="text-sm font-semibold">Etapas de produção</div>
+                  <button class="text-xs text-indigo-600 font-medium">Voltar pra modelagem</button>
+                </div>
+
+                <div class="relative">
+                  <div class="absolute left-3 top-2 bottom-2 w-px bg-neutral-200"></div>
+                  <template x-for="(e, i) in selecionado.etapas" :key="i">
+                    <div class="relative pl-10 pb-4">
+                      <!-- Bola -->
+                      <div class="absolute left-0 top-0.5 w-7 h-7 rounded-full flex items-center justify-center border-2 bg-white"
+                        :class="e.status==='concluido' ? 'border-emerald-500 bg-emerald-500' : e.status==='atual' ? 'border-indigo-500 bg-indigo-500' : e.status==='atrasado' ? 'border-red-500 bg-red-500' : 'border-neutral-300'">
+                        <svg x-show="e.status==='concluido'" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                        <div x-show="e.status==='atual'" class="w-2 h-2 rounded-full bg-white pulse-dot"></div>
+                        <span x-show="e.status==='atrasado'" class="text-white text-sm font-bold">!</span>
+                      </div>
+
+                      <div class="pt-0.5">
+                        <div class="flex items-baseline gap-2 flex-wrap">
+                          <div class="font-semibold text-sm"
+                            :class="e.status==='pendente' ? 'text-neutral-400' : 'text-neutral-900'"
+                            x-text="e.nome"></div>
+                          <div class="text-xs" :class="e.status==='atrasado' ? 'text-red-600 font-semibold' : 'text-neutral-500'"
+                            x-text="e.status==='concluido' ? 'concluído ' + e.dataReal : e.status==='atrasado' ? e.diasAtraso + ' dias atrasado' : e.status==='atual' ? 'em andamento' : ''"></div>
+                        </div>
+                        <div class="text-xs text-neutral-500 mt-0.5" x-show="e.responsavel && e.status !== 'pendente'">
+                          <span x-text="e.responsavel"></span>
+                          <template x-if="e.previsto"><span> · previsto <span x-text="e.previsto"></span></span></template>
+                        </div>
+                        <div x-show="e.obs" class="mt-2 text-xs text-neutral-600 bg-neutral-50 rounded-lg p-2" x-text="e.obs"></div>
+
+                        <!-- Ação -->
+                        <div x-show="e.status==='atual' || e.status==='atrasado'" class="mt-3 space-y-2">
+                          <button @click="concluirEtapa(i)" class="w-full py-3 rounded-xl bg-neutral-900 text-white font-semibold text-sm shadow-sm active:bg-neutral-800">
+                            Concluir etapa
+                          </button>
+                          <div class="flex gap-2">
+                            <button class="flex-1 py-2 rounded-lg border border-neutral-200 text-xs text-neutral-600 font-medium flex items-center justify-center gap-1.5">
+                              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-14 0m14 0V9m0 2v2m-7 4v3m-3 0h6m-3-3v0m-6-8a3 3 0 106 0V6a3 3 0 10-6 0v5z"/></svg>
+                              Obs por voz
+                            </button>
+                            <button class="flex-1 py-2 rounded-lg border border-neutral-200 text-xs text-neutral-600 font-medium flex items-center justify-center gap-1.5">
+                              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                              Foto
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================================ -->
+<!-- ============================== VIEW 3: WHATSAPP ================================ -->
+<!-- ================================================================================ -->
+<div x-show="view==='whatsapp'" class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 gap-10">
+
+  <div class="pt-8">
+    <div class="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-3">Alertas via WhatsApp</div>
+    <h2 class="text-3xl font-bold tracking-tight mb-4">Você nunca precisa abrir o sistema.</h2>
+    <div class="space-y-4 text-neutral-700 leading-relaxed">
+      <p>Duas mensagens por dia direto no seu WhatsApp. Sem app, sem login, sem esperar.</p>
+      <p><strong>8h da manhã</strong> — os modelos que precisam de decisão hoje, ordenados por dinheiro parado. Clique no link e a tela abre já filtrada.</p>
+      <p><strong>18h</strong> — resumo do dia: quantas etapas concluídas, novos atrasos, gargalos identificados, e o valor total em produção.</p>
+      <p><strong>Emergência</strong> — quando algo entra em risco crítico (piloto reprovado, tecido não chegou, atraso &gt; 5 dias), você recebe na hora.</p>
+    </div>
+    <div class="mt-8 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+      <div class="text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2">Por que isso muda o jogo</div>
+      <div class="text-sm text-emerald-900">
+        Você toma decisão no <strong>dia que o problema acontece</strong>, não na sexta-feira quando abre o BI.<br>
+        Dashboard é pra investigar. WhatsApp é pra agir.
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-center">
+    <div class="phone-frame">
+      <div class="phone-screen flex flex-col bg-[#e5ddd5]">
+        <!-- Header WhatsApp -->
+        <div class="bg-emerald-700 text-white pt-10 pb-3 px-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-700 font-bold">P</div>
+          <div class="flex-1">
+            <div class="font-semibold">PCP My Life</div>
+            <div class="text-xs opacity-80">online agora</div>
+          </div>
+        </div>
+
+        <!-- Mensagens -->
+        <div class="flex-1 overflow-y-auto hide-scrollbar px-4 py-6 space-y-3">
+
+          <div class="text-center">
+            <span class="text-xs bg-white/70 rounded-lg px-3 py-1 text-neutral-600">Hoje, 08:00</span>
+          </div>
+
+          <!-- Msg 1 -->
+          <div class="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
+            <div class="text-sm font-semibold text-emerald-700 mb-1">Bom dia, Luiz.</div>
+            <div class="text-sm text-neutral-800 leading-relaxed">
+              3 modelos precisam de decisão hoje:<br><br>
+              <strong>Vestido Alícia</strong><br>
+              Pilotagem · 5 dias atrasado<br>
+              R$ 2.106 parados<br><br>
+              <strong>Blusa Iza</strong><br>
+              Modelagem · 3 dias atrasado<br>
+              R$ 1.537 parados<br><br>
+              <strong>Vestido Agatha</strong><br>
+              Corte · 4 dias atrasado<br>
+              R$ 973 parados<br><br>
+              <span class="text-emerald-700 font-medium">Ver detalhes →</span>
+            </div>
+            <div class="text-xs text-neutral-400 text-right mt-1">08:00</div>
+          </div>
+
+          <div class="text-center">
+            <span class="text-xs bg-white/70 rounded-lg px-3 py-1 text-neutral-600">14:22</span>
+          </div>
+
+          <!-- Msg 2 - Alerta emergência -->
+          <div class="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm border-l-4 border-red-500">
+            <div class="text-sm font-semibold text-red-600 mb-1">Alerta</div>
+            <div class="text-sm text-neutral-800 leading-relaxed">
+              <strong>Blusa Iza</strong> voltou pra modelagem.<br>
+              Motivo: piloto reprovado no caimento.<br><br>
+              Impacto: previsão de entrega estica em ~7 dias.<br><br>
+              <span class="text-emerald-700 font-medium">Ver piloto →</span>
+            </div>
+            <div class="text-xs text-neutral-400 text-right mt-1">14:22</div>
+          </div>
+
+          <div class="text-center">
+            <span class="text-xs bg-white/70 rounded-lg px-3 py-1 text-neutral-600">18:00</span>
+          </div>
+
+          <!-- Msg 3 - Brief -->
+          <div class="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
+            <div class="text-sm font-semibold text-emerald-700 mb-1">Resumo do dia</div>
+            <div class="text-sm text-neutral-800 leading-relaxed">
+              Terça, 15 de julho<br><br>
+              5 etapas concluídas<br>
+              1 modelo liberado (Vestido Maitê)<br>
+              2 novos atrasos<br>
+              1 piloto reprovado<br><br>
+              Gargalo hoje: <strong>Pilotagem</strong><br>
+              Média subiu pra 9 dias (planejado 5).<br><br>
+              R$ 42.180 em produção<br>
+              R$ 8.155 parados em atrasos<br><br>
+              <span class="text-emerald-700 font-medium">Abrir dashboard →</span>
+            </div>
+            <div class="text-xs text-neutral-400 text-right mt-1">18:00</div>
+          </div>
+        </div>
+
+        <!-- Barra de input -->
+        <div class="bg-[#f0f0f0] px-3 py-2 flex items-center gap-2">
+          <div class="flex-1 bg-white rounded-full px-4 py-2 text-sm text-neutral-400">Mensagem</div>
+          <div class="w-9 h-9 bg-emerald-600 rounded-full flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-14 0m14 0V9m0 2v2m-7 4v3m-3 0h6m-3-3v0m-6-8a3 3 0 106 0V6a3 3 0 10-6 0v5z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function app() {
+  return {
+    view: 'dashboard',
+    filtroAtivo: 'todos',
+    selecionado: null,
+
+    filtros: [
+      { id: 'todos',     label: 'Todos',     count: 8 },
+      { id: 'atrasado',  label: 'Atrasados', count: 3 },
+      { id: 'hoje',      label: 'Hoje',      count: 5 },
+      { id: 'aprovacao', label: 'Aprovação', count: 2 },
+    ],
+
+    // Dados reais da planilha do Luiz
+    modelos: [
+      {
+        ref: 1723, nome: 'VESTIDO ALÍCIA', qnt: 93, consumo: 2.17, valorMetro: 22.36,
+        etapa: 'Pilotagem', status: 'atrasado', diasAtraso: 5, diasEtapa: 9,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '17/02', previsto: '17/02' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '19/02', previsto: '17/02', obs: 'Modelagem revisada 2x até aprovação' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '22/02', previsto: '19/02' },
+          { nome: 'Pilotagem',         status: 'atrasado',  responsavel: 'Fernanda',   previsto: '27/02', diasAtraso: 5, obs: 'Aguardando ajuste na cava' },
+          { nome: 'Aprovação',         status: 'pendente' },
+          { nome: 'Compra tecido',     status: 'pendente' },
+          { nome: 'Corte produção',    status: 'pendente' },
+          { nome: 'Costura',           status: 'pendente' },
+          { nome: 'Acabamento',        status: 'pendente' },
+          { nome: 'Revisão',           status: 'pendente' },
+          { nome: 'Liberado',          status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1913, nome: 'BLUSA IZA', qnt: 120, consumo: 1.22, valorMetro: 10.50,
+        etapa: 'Modelagem (retorno)', status: 'atrasado', diasAtraso: 3, diasEtapa: 6,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '06/03', previsto: '06/03' },
+          { nome: 'Modelagem',         status: 'atrasado',  responsavel: 'Márcia',     previsto: '15/03', diasAtraso: 3, obs: 'Piloto reprovado - retornou pra ajuste no decote' },
+          { nome: 'Cortadora piloto',  status: 'pendente' },
+          { nome: 'Pilotagem',         status: 'pendente' },
+          { nome: 'Aprovação',         status: 'pendente' },
+          { nome: 'Corte produção',    status: 'pendente' },
+          { nome: 'Costura',           status: 'pendente' },
+          { nome: 'Acabamento',        status: 'pendente' },
+          { nome: 'Liberado',          status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1917, nome: 'VESTIDO AGATHA', qnt: 95, consumo: 2.44, valorMetro: 4.20,
+        etapa: 'Corte produção', status: 'atrasado', diasAtraso: 4, diasEtapa: 7,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '07/01', previsto: '07/01' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '06/01', previsto: '06/01' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '15/01', previsto: '15/01' },
+          { nome: 'Pilotagem',         status: 'concluido', responsavel: 'Fernanda',   dataReal: '18/01', previsto: '16/01' },
+          { nome: 'Aprovação',         status: 'concluido', responsavel: 'Luiz',       dataReal: '22/01', previsto: '20/01' },
+          { nome: 'Compra tecido',     status: 'concluido', responsavel: 'Rodrigo',    dataReal: '02/02', previsto: '30/01' },
+          { nome: 'Recebimento',       status: 'concluido', responsavel: 'Rodrigo',    dataReal: '18/02', previsto: '15/02' },
+          { nome: 'Corte produção',    status: 'atrasado',  responsavel: 'Carlos',     previsto: '10/07', diasAtraso: 4, obs: 'Encaixe travou - falta de operador' },
+          { nome: 'Costura',           status: 'pendente' },
+          { nome: 'Acabamento',        status: 'pendente' },
+          { nome: 'Liberado',          status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1704, nome: 'AQUETA ALÍCIA', qnt: 60, consumo: 1.57, valorMetro: 22.36,
+        etapa: 'Modelagem', status: 'risco', diasEtapa: 4,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '14/01', previsto: '14/01' },
+          { nome: 'Modelagem',         status: 'atual',     responsavel: 'Márcia',     previsto: '19/07' },
+          { nome: 'Cortadora piloto',  status: 'pendente' },
+          { nome: 'Pilotagem',         status: 'pendente' },
+          { nome: 'Aprovação',         status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1877, nome: 'SAIA MIDI ALBA', qnt: 90, consumo: 2.24, valorMetro: 12.90,
+        etapa: 'Pilotagem', status: 'ok', diasEtapa: 2,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '22/11', previsto: '22/11' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '22/11', previsto: '22/11' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '10/12', previsto: '10/12' },
+          { nome: 'Pilotagem',         status: 'atual',     responsavel: 'Fernanda',   previsto: '18/07' },
+          { nome: 'Aprovação',         status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1872, nome: 'CALÇA HELOISA', qnt: 143, consumo: 1.85, valorMetro: 27.00,
+        etapa: 'Costura', status: 'ok', diasEtapa: 3,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '08/12', previsto: '08/12' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '08/12', previsto: '08/12' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '10/12', previsto: '10/12' },
+          { nome: 'Pilotagem',         status: 'concluido', responsavel: 'Fernanda',   dataReal: '12/12', previsto: '12/12' },
+          { nome: 'Aprovação',         status: 'concluido', responsavel: 'Luiz',       dataReal: '15/12', previsto: '15/12' },
+          { nome: 'Compra tecido',     status: 'concluido', responsavel: 'Rodrigo',    dataReal: '20/12', previsto: '20/12' },
+          { nome: 'Recebimento',       status: 'concluido', responsavel: 'Rodrigo',    dataReal: '08/01', previsto: '10/01' },
+          { nome: 'Corte produção',    status: 'concluido', responsavel: 'Carlos',     dataReal: '05/07', previsto: '06/07' },
+          { nome: 'Costura',           status: 'atual',     responsavel: 'Equipe A',   previsto: '20/07', obs: 'Fluxo dentro do ritmo' },
+          { nome: 'Acabamento',        status: 'pendente' },
+          { nome: 'Liberado',          status: 'pendente' },
+        ]
+      },
+      {
+        ref: 1875, nome: 'BLUSA MARIA CLARA', qnt: 100, consumo: 0.71, valorMetro: 28.51,
+        etapa: 'Aprovação', status: 'ok', diasEtapa: 1,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '06/11', previsto: '06/11' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '06/11', previsto: '06/11' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '06/11', previsto: '06/11' },
+          { nome: 'Pilotagem',         status: 'concluido', responsavel: 'Fernanda',   dataReal: '02/12', previsto: '02/12' },
+          { nome: 'Aprovação',         status: 'atual',     responsavel: 'Luiz',       previsto: '16/07' },
+        ]
+      },
+      {
+        ref: 1918, nome: 'VESTIDO BALONÊ LIZ', qnt: 120, consumo: 2.24, valorMetro: 8.75,
+        etapa: 'Aprovação', status: 'ok', diasEtapa: 2,
+        etapas: [
+          { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '19/02', previsto: '19/02' },
+          { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '02/03', previsto: '02/03' },
+          { nome: 'Cortadora piloto',  status: 'concluido', responsavel: 'Carlos',     dataReal: '05/03', previsto: '05/03' },
+          { nome: 'Pilotagem',         status: 'concluido', responsavel: 'Fernanda',   dataReal: '10/07', previsto: '10/07' },
+          { nome: 'Aprovação',         status: 'atual',     responsavel: 'Luiz',       previsto: '17/07', obs: 'Aguardando teste final de caimento' },
+        ]
+      },
+    ],
+
+    // Modelos críticos pro dashboard
+    get criticos() {
+      return [
+        { ref: 1723, nome: 'VESTIDO ALÍCIA',   etapa: 'Pilotagem',       diasEtapa: 9, previsto: '15/07', valorParado: 4512.11, severidade: 'alta' },
+        { ref: 1917, nome: 'VESTIDO AGATHA',   etapa: 'Corte produção',  diasEtapa: 7, previsto: '18/07', valorParado: 973.56,  severidade: 'alta' },
+        { ref: 1913, nome: 'BLUSA IZA',        etapa: 'Modelagem',       diasEtapa: 6, previsto: '20/07', valorParado: 1537.20, severidade: 'alta' },
+        { ref: 1704, nome: 'AQUETA ALÍCIA',    etapa: 'Modelagem',       diasEtapa: 4, previsto: '22/07', valorParado: 2105.65, severidade: 'media' },
+        { ref: 1918, nome: 'VESTIDO BALONÊ',   etapa: 'Aprovação',       diasEtapa: 3, previsto: '19/07', valorParado: 2352.00, severidade: 'media' },
+      ]
+    },
+
+    etapasResumo: [
+      { nome: 'Desenvolvimento', count: 4,  mediaDias: 6,  gargalo: false },
+      { nome: 'Modelagem',       count: 8,  mediaDias: 5,  gargalo: false },
+      { nome: 'Cortadora piloto',count: 3,  mediaDias: 2,  gargalo: false },
+      { nome: 'Pilotagem',       count: 6,  mediaDias: 9,  gargalo: true  },
+      { nome: 'Aprovação',       count: 4,  mediaDias: 2,  gargalo: false },
+      { nome: 'Compra tecido',   count: 5,  mediaDias: 8,  gargalo: false },
+      { nome: 'Corte produção',  count: 7,  mediaDias: 3,  gargalo: false },
+      { nome: 'Costura',         count: 9,  mediaDias: 7,  gargalo: false },
+      { nome: 'Acabamento',      count: 4,  mediaDias: 3,  gargalo: false },
+      { nome: 'Revisão',         count: 2,  mediaDias: 1,  gargalo: false },
+    ],
+
+    get modelosHoje() {
+      return this.modelos.filter(m => m.status !== 'ok' || ['Pilotagem','Aprovação'].includes(m.etapa))
+    },
+
+    get modelosFiltrados() {
+      if (this.filtroAtivo === 'atrasado') return this.modelos.filter(m => m.status === 'atrasado')
+      if (this.filtroAtivo === 'aprovacao') return this.modelos.filter(m => m.etapa === 'Aprovação')
+      if (this.filtroAtivo === 'hoje') return this.modelosHoje
+      return this.modelos
+    },
+
+    selecionar(m) {
+      this.selecionado = JSON.parse(JSON.stringify(m))
+    },
+
+    concluirEtapa(i) {
+      const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
+      this.selecionado.etapas[i].status = 'concluido'
+      this.selecionado.etapas[i].dataReal = hoje
+      // Ativa próxima
+      if (this.selecionado.etapas[i+1]) {
+        this.selecionado.etapas[i+1].status = 'atual'
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</html>
