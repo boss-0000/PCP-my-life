@@ -43,7 +43,7 @@
       <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">P</div>
       <div>
         <div class="text-sm font-semibold">PCP My Life</div>
-        <div class="text-xs text-neutral-500">Demonstração · Coleção Fev/2026</div>
+        <div class="text-xs text-neutral-500">Demonstração · Coleção Fevereiro 2026</div>
       </div>
     </div>
     <div class="flex items-center gap-1 bg-neutral-100 rounded-lg p-1">
@@ -73,40 +73,49 @@
     </div>
   </div>
 
-  <!-- Semáforo grande -->
+  <!-- KPIs principais (alinhados aos indicadores do BI do Luiz) -->
   <div class="grid grid-cols-3 gap-4 mb-8">
     <div class="rounded-2xl bg-white border border-neutral-200 p-6">
       <div class="flex items-center justify-between mb-4">
-        <div class="text-sm font-medium text-neutral-500">Em risco crítico</div>
+        <div class="text-sm font-medium text-neutral-500">Modelos em Atraso</div>
         <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
       </div>
       <div class="flex items-baseline gap-2">
         <div class="text-5xl font-bold num text-red-600">3</div>
-        <div class="text-sm text-neutral-500">modelos</div>
+        <div class="text-sm text-neutral-500">de 52</div>
       </div>
-      <div class="text-xs text-neutral-500 mt-2">R$ 8.155 parados em produção</div>
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
+        <div class="text-xs text-neutral-500">Meta: <span class="font-semibold text-neutral-700 num">0</span></div>
+        <div class="text-xs font-semibold text-red-600 uppercase tracking-wide">Crítico</div>
+      </div>
     </div>
     <div class="rounded-2xl bg-white border border-neutral-200 p-6">
       <div class="flex items-center justify-between mb-4">
-        <div class="text-sm font-medium text-neutral-500">Atenção (2–4 dias)</div>
+        <div class="text-sm font-medium text-neutral-500">Prejuízo Estimado</div>
+        <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+      </div>
+      <div class="flex items-baseline gap-1">
+        <div class="text-2xl font-bold text-neutral-400 num">R$</div>
+        <div class="text-5xl font-bold num text-red-600">8.155</div>
+      </div>
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
+        <div class="text-xs text-neutral-500">Meta: <span class="font-semibold text-neutral-700">R$ 0</span></div>
+        <div class="text-xs font-semibold text-red-600 uppercase tracking-wide">Crítico</div>
+      </div>
+    </div>
+    <div class="rounded-2xl bg-white border border-neutral-200 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-sm font-medium text-neutral-500">Entregas no Prazo</div>
         <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
       </div>
-      <div class="flex items-baseline gap-2">
-        <div class="text-5xl font-bold num text-amber-600">7</div>
-        <div class="text-sm text-neutral-500">modelos</div>
+      <div class="flex items-baseline gap-1">
+        <div class="text-5xl font-bold num text-amber-600">81</div>
+        <div class="text-2xl font-bold text-neutral-400">%</div>
       </div>
-      <div class="text-xs text-neutral-500 mt-2">Previsão de atraso baseada no ritmo atual</div>
-    </div>
-    <div class="rounded-2xl bg-white border border-neutral-200 p-6">
-      <div class="flex items-center justify-between mb-4">
-        <div class="text-sm font-medium text-neutral-500">Dentro do prazo</div>
-        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
+        <div class="text-xs text-neutral-500">Meta: <span class="font-semibold text-neutral-700 num">90%</span></div>
+        <div class="text-xs font-semibold text-amber-600 uppercase tracking-wide">Abaixo</div>
       </div>
-      <div class="flex items-baseline gap-2">
-        <div class="text-5xl font-bold num text-emerald-600">42</div>
-        <div class="text-sm text-neutral-500">modelos</div>
-      </div>
-      <div class="text-xs text-neutral-500 mt-2">81% da coleção Fev/2026</div>
     </div>
   </div>
 
@@ -154,12 +163,12 @@
         </div>
       </div>
 
-      <!-- Modelos por etapa -->
+      <!-- Farol de Produção -->
       <div class="rounded-2xl bg-white border border-neutral-200 p-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h2 class="text-lg font-semibold">Modelos por etapa</h2>
-            <div class="text-xs text-neutral-500 mt-0.5">Coleção Fev/2026 · 52 modelos ativos</div>
+            <h2 class="text-lg font-semibold">Farol de Produção</h2>
+            <div class="text-xs text-neutral-500 mt-0.5">Modelos por setor · Tempo médio em dias</div>
           </div>
         </div>
         <div class="space-y-3">
@@ -274,6 +283,54 @@
               <span class="font-medium">Blusa Iza</span> voltou pra modelagem (piloto reprovado)
               <div class="text-xs text-neutral-400 mt-0.5">Há 5 horas</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fase 2 teaser: Ciclo de Vida vs Prazo de Pagamento -->
+  <div class="mt-10 rounded-2xl bg-gradient-to-br from-neutral-900 via-neutral-900 to-indigo-950 text-white overflow-hidden relative">
+    <div class="absolute top-4 right-4 flex items-center gap-1.5 text-xs bg-white/10 backdrop-blur rounded-full px-3 py-1 font-semibold uppercase tracking-wide">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      Fase 2 · em roadmap
+    </div>
+    <div class="p-8 grid grid-cols-5 gap-8 items-center">
+      <div class="col-span-2">
+        <div class="text-xs font-semibold text-indigo-300 uppercase tracking-wider mb-2">Próximo módulo</div>
+        <h3 class="text-2xl font-bold mb-3">Ciclo de Vida vs Prazo de Pagamento</h3>
+        <p class="text-sm text-neutral-300 leading-relaxed">
+          Cruza o tempo de produção com o prazo dos seus fornecedores.
+          Você vê antecipadamente <strong class="text-white">quando o boleto chega antes do produto vender</strong> —
+          e evita usar capital próprio.
+        </p>
+      </div>
+      <div class="col-span-3">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1.5">
+              <span class="text-blue-300">Ciclo de vida (produção → venda)</span>
+              <span class="text-blue-300 font-semibold num">56 dias</span>
+            </div>
+            <div class="h-3 bg-white/5 rounded-full overflow-hidden">
+              <div class="h-full bg-blue-400 rounded-full" style="width: 62%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1.5">
+              <span class="text-emerald-300">Prazo médio de pagamento (fornecedor)</span>
+              <span class="text-emerald-300 font-semibold num">90 dias</span>
+            </div>
+            <div class="h-3 bg-white/5 rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-400 rounded-full" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="pt-2 flex items-center gap-2 text-sm">
+            <div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+              <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-emerald-300 font-medium">Folga de 34 dias</span>
+            <span class="text-neutral-400">— produto vende antes do boleto vencer</span>
           </div>
         </div>
       </div>
@@ -609,7 +666,7 @@ function app() {
           { nome: 'Pilotagem',         status: 'atrasado',  responsavel: 'Fernanda',   previsto: '27/02', diasAtraso: 5, obs: 'Aguardando ajuste na cava' },
           { nome: 'Aprovação',         status: 'pendente' },
           { nome: 'Compra tecido',     status: 'pendente' },
-          { nome: 'Corte produção',    status: 'pendente' },
+          { nome: 'Corte',    status: 'pendente' },
           { nome: 'Costura',           status: 'pendente' },
           { nome: 'Acabamento',        status: 'pendente' },
           { nome: 'Revisão',           status: 'pendente' },
@@ -625,7 +682,7 @@ function app() {
           { nome: 'Cortadora piloto',  status: 'pendente' },
           { nome: 'Pilotagem',         status: 'pendente' },
           { nome: 'Aprovação',         status: 'pendente' },
-          { nome: 'Corte produção',    status: 'pendente' },
+          { nome: 'Corte',    status: 'pendente' },
           { nome: 'Costura',           status: 'pendente' },
           { nome: 'Acabamento',        status: 'pendente' },
           { nome: 'Liberado',          status: 'pendente' },
@@ -633,7 +690,7 @@ function app() {
       },
       {
         ref: 1917, nome: 'VESTIDO AGATHA', qnt: 95, consumo: 2.44, valorMetro: 4.20,
-        etapa: 'Corte produção', status: 'atrasado', diasAtraso: 4, diasEtapa: 7,
+        etapa: 'Corte', status: 'atrasado', diasAtraso: 4, diasEtapa: 7,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '07/01', previsto: '07/01' },
           { nome: 'Modelagem',         status: 'concluido', responsavel: 'Márcia',     dataReal: '06/01', previsto: '06/01' },
@@ -642,7 +699,7 @@ function app() {
           { nome: 'Aprovação',         status: 'concluido', responsavel: 'Luiz',       dataReal: '22/01', previsto: '20/01' },
           { nome: 'Compra tecido',     status: 'concluido', responsavel: 'Rodrigo',    dataReal: '02/02', previsto: '30/01' },
           { nome: 'Recebimento',       status: 'concluido', responsavel: 'Rodrigo',    dataReal: '18/02', previsto: '15/02' },
-          { nome: 'Corte produção',    status: 'atrasado',  responsavel: 'Carlos',     previsto: '10/07', diasAtraso: 4, obs: 'Encaixe travou - falta de operador' },
+          { nome: 'Corte',    status: 'atrasado',  responsavel: 'Carlos',     previsto: '10/07', diasAtraso: 4, obs: 'Encaixe travou - falta de operador' },
           { nome: 'Costura',           status: 'pendente' },
           { nome: 'Acabamento',        status: 'pendente' },
           { nome: 'Liberado',          status: 'pendente' },
@@ -681,7 +738,7 @@ function app() {
           { nome: 'Aprovação',         status: 'concluido', responsavel: 'Luiz',       dataReal: '15/12', previsto: '15/12' },
           { nome: 'Compra tecido',     status: 'concluido', responsavel: 'Rodrigo',    dataReal: '20/12', previsto: '20/12' },
           { nome: 'Recebimento',       status: 'concluido', responsavel: 'Rodrigo',    dataReal: '08/01', previsto: '10/01' },
-          { nome: 'Corte produção',    status: 'concluido', responsavel: 'Carlos',     dataReal: '05/07', previsto: '06/07' },
+          { nome: 'Corte',    status: 'concluido', responsavel: 'Carlos',     dataReal: '05/07', previsto: '06/07' },
           { nome: 'Costura',           status: 'atual',     responsavel: 'Equipe A',   previsto: '20/07', obs: 'Fluxo dentro do ritmo' },
           { nome: 'Acabamento',        status: 'pendente' },
           { nome: 'Liberado',          status: 'pendente' },
@@ -715,24 +772,25 @@ function app() {
     get criticos() {
       return [
         { ref: 1723, nome: 'VESTIDO ALÍCIA',   etapa: 'Pilotagem',       diasEtapa: 9, previsto: '15/07', valorParado: 4512.11, severidade: 'alta' },
-        { ref: 1917, nome: 'VESTIDO AGATHA',   etapa: 'Corte produção',  diasEtapa: 7, previsto: '18/07', valorParado: 973.56,  severidade: 'alta' },
+        { ref: 1917, nome: 'VESTIDO AGATHA',   etapa: 'Corte',  diasEtapa: 7, previsto: '18/07', valorParado: 973.56,  severidade: 'alta' },
         { ref: 1913, nome: 'BLUSA IZA',        etapa: 'Modelagem',       diasEtapa: 6, previsto: '20/07', valorParado: 1537.20, severidade: 'alta' },
         { ref: 1704, nome: 'AQUETA ALÍCIA',    etapa: 'Modelagem',       diasEtapa: 4, previsto: '22/07', valorParado: 2105.65, severidade: 'media' },
         { ref: 1918, nome: 'VESTIDO BALONÊ',   etapa: 'Aprovação',       diasEtapa: 3, previsto: '19/07', valorParado: 2352.00, severidade: 'media' },
       ]
     },
 
+    // 10 setores reais do Farol de Produção do Luiz (taxonomia do BI dele)
     etapasResumo: [
       { nome: 'Desenvolvimento', count: 4,  mediaDias: 6,  gargalo: false },
+      { nome: 'Cortadora',       count: 3,  mediaDias: 2,  gargalo: false },
       { nome: 'Modelagem',       count: 8,  mediaDias: 5,  gargalo: false },
-      { nome: 'Cortadora piloto',count: 3,  mediaDias: 2,  gargalo: false },
-      { nome: 'Pilotagem',       count: 6,  mediaDias: 9,  gargalo: true  },
-      { nome: 'Aprovação',       count: 4,  mediaDias: 2,  gargalo: false },
-      { nome: 'Compra tecido',   count: 5,  mediaDias: 8,  gargalo: false },
-      { nome: 'Corte produção',  count: 7,  mediaDias: 3,  gargalo: false },
       { nome: 'Costura',         count: 9,  mediaDias: 7,  gargalo: false },
+      { nome: 'Estamparia',      count: 2,  mediaDias: 4,  gargalo: false },
+      { nome: 'Pilotagem',       count: 6,  mediaDias: 9,  gargalo: true  },
+      { nome: 'Risco',           count: 3,  mediaDias: 3,  gargalo: false },
+      { nome: 'Entretelas',      count: 1,  mediaDias: 2,  gargalo: false },
+      { nome: 'Corte',           count: 5,  mediaDias: 3,  gargalo: false },
       { nome: 'Acabamento',      count: 4,  mediaDias: 3,  gargalo: false },
-      { nome: 'Revisão',         count: 2,  mediaDias: 1,  gargalo: false },
     ],
 
     get modelosHoje() {
