@@ -1,0 +1,11 @@
+# Reference screenshots from Luiz — contain confidential business data
+# (supplier names, cash flow, oficinas, margins). Never commit to public repo.
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.xlsx
+
+# Local notes / references
+notes/
+reference/
