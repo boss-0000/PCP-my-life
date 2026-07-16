@@ -208,11 +208,11 @@
             <h2 class="text-base sm:text-lg font-semibold">Precisam de decisão hoje</h2>
             <div class="text-xs text-neutral-500 mt-0.5">Ordenados por dinheiro parado</div>
           </div>
-          <button class="text-xs sm:text-sm text-indigo-600 font-medium hover:underline shrink-0">Ver todos</button>
+          <button @click="view='gestor'; selecionado=null" class="text-xs sm:text-sm text-indigo-600 font-medium hover:underline shrink-0">Ver todos</button>
         </div>
         <div class="divide-y divide-neutral-100">
           <template x-for="m in criticos" :key="m.ref">
-            <div class="px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 hover:bg-neutral-50 cursor-pointer">
+            <div @click="abrirModelo(m.ref)" class="px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 hover:bg-neutral-50 active:bg-neutral-100 cursor-pointer transition">
               <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
                 :class="m.severidade==='alta' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'">
                 <span x-text="m.severidade==='alta' ? '!' : '·'"></span>
@@ -310,7 +310,7 @@
             <span class="font-semibold num">6</span>
           </div>
         </div>
-        <button class="mt-4 w-full py-2 rounded-lg bg-white text-red-700 border border-red-200 text-sm font-semibold hover:bg-red-50">Ver responsáveis</button>
+        <button @click="view='gestor'; filtroAtivo='atrasado'; selecionado=null" class="mt-4 w-full py-2 rounded-lg bg-white text-red-700 border border-red-200 text-sm font-semibold hover:bg-red-50">Ver responsáveis</button>
       </div>
 
       <!-- Ritmo da coleção -->
@@ -1034,6 +1034,17 @@ function app() {
 
     selecionar(m) {
       this.selecionado = JSON.parse(JSON.stringify(m))
+    },
+
+    // Abre um modelo direto pela ref (do dashboard vai pra tela do gestor)
+    abrirModelo(ref) {
+      const m = this.modelos.find(x => x.ref === ref)
+      if (m) {
+        this.view = 'gestor'
+        this.selecionar(m)
+        // Scroll top pra garantir que aparece o header do modelo
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     },
 
     concluirEtapa(i) {
