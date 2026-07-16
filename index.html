@@ -130,6 +130,71 @@
     </div>
   </div>
 
+  <!-- Composição da Coleção — arma do Luiz pra conversa com Estilo -->
+  <div class="rounded-2xl bg-white border border-neutral-200 p-4 sm:p-6 mb-6 sm:mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-4 sm:mb-5 gap-2">
+      <div>
+        <h2 class="text-base sm:text-lg font-semibold">Composição da Coleção por Complexidade</h2>
+        <div class="text-xs text-neutral-500 mt-0.5">Quantidade × valor em produção · orienta decisão sobre mix</div>
+      </div>
+      <div class="text-xs text-neutral-500">
+        <span class="num" x-text="composicaoTotais.totalMod"></span> modelos ·
+        <span class="num">R$ <span x-text="composicaoTotais.totalVal.toLocaleString('pt-BR')"></span></span> em produção
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+      <template x-for="c in composicao" :key="c.tipo">
+        <div class="rounded-xl border p-4"
+          :class="{
+            'border-emerald-200 bg-emerald-50/40': c.cor==='emerald',
+            'border-amber-200 bg-amber-50/40':     c.cor==='amber',
+            'border-rose-200 bg-rose-50/40':       c.cor==='rose',
+          }">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full"
+              :class="{
+                'bg-emerald-500': c.cor==='emerald',
+                'bg-amber-500':   c.cor==='amber',
+                'bg-rose-500':    c.cor==='rose',
+              }"></div>
+            <div class="text-sm font-semibold"
+              :class="{
+                'text-emerald-800': c.cor==='emerald',
+                'text-amber-800':   c.cor==='amber',
+                'text-rose-800':    c.cor==='rose',
+              }"
+              x-text="complexLabel(c.tipo)"></div>
+            <div class="ml-auto text-xs text-neutral-500 num" x-text="'meta ' + complexDias(c.tipo) + 'd'"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div>
+              <div class="text-xs text-neutral-500 mb-0.5">Modelos</div>
+              <div class="text-2xl font-bold num" x-text="c.modelos"></div>
+              <div class="text-xs text-neutral-500 num" x-text="Math.round(c.modelos / composicaoTotais.totalMod * 100) + '% da coleção'"></div>
+            </div>
+            <div>
+              <div class="text-xs text-neutral-500 mb-0.5">Valor</div>
+              <div class="text-2xl font-bold num">R$ <span x-text="(c.valor / 1000).toFixed(1) + 'k'"></span></div>
+              <div class="text-xs text-neutral-500 num" x-text="Math.round(c.valor / composicaoTotais.totalVal * 100) + '% do R$ total'"></div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/60 flex items-center justify-between text-xs">
+            <span class="text-neutral-600">Tempo médio projetado</span>
+            <span class="font-semibold num" x-text="c.mediaDias + ' dias'"></span>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <div class="mt-4 sm:mt-5 flex items-start gap-2 text-xs text-neutral-500 bg-neutral-50 rounded-lg p-3">
+      <svg class="w-4 h-4 shrink-0 mt-0.5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>Modelos <strong>Muito complexos</strong> ocupam <strong>25% da coleção</strong> mas representam só <strong>14% do R$ em produção</strong> — o alto giro vem de Simples e Complexo.</span>
+    </div>
+  </div>
+
   <!-- Grid principal -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
@@ -156,10 +221,17 @@
                 <div class="flex items-center gap-2 flex-wrap">
                   <div class="font-semibold text-sm sm:text-base truncate" x-text="m.nome"></div>
                   <div class="text-xs text-neutral-400 num" x-text="'Ref ' + m.ref"></div>
+                  <span x-show="m.complexidade" class="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded"
+                    :class="{
+                      'bg-emerald-100 text-emerald-700': complexCor(m.complexidade)==='emerald',
+                      'bg-amber-100 text-amber-700':     complexCor(m.complexidade)==='amber',
+                      'bg-rose-100 text-rose-700':       complexCor(m.complexidade)==='rose',
+                    }"
+                    x-text="complexLabel(m.complexidade)"></span>
                 </div>
                 <div class="text-xs sm:text-sm text-neutral-600 mt-0.5 truncate">
                   <span x-text="m.etapa"></span> · <span class="font-medium" x-text="m.diasEtapa"></span>d
-                  <span class="hidden sm:inline"> · previsto sair em <span x-text="m.previsto"></span></span>
+                  <span class="hidden sm:inline"> · meta <span class="num" x-text="complexDias(m.complexidade)"></span>d ciclo · previsto sair em <span x-text="m.previsto"></span></span>
                 </div>
               </div>
               <div class="text-right shrink-0">
@@ -365,8 +437,10 @@
     <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-3">Tela do gestor de produção</div>
     <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mb-4">A entrada de dado que não parece entrada de dado.</h2>
     <div class="space-y-4 text-neutral-700 leading-relaxed">
-      <p>Cada dia, o gestor abre o app e vê <strong>só o que precisa da atenção dele hoje</strong>. Sem filtro, sem procurar, sem coluna infinita.</p>
+      <p>Cada dia, a supervisora abre o app e vê <strong>só o que precisa da atenção dela hoje</strong>. Sem filtro, sem procurar, sem coluna infinita.</p>
       <p>Concluir uma etapa é <strong>um toque</strong>. A data real é preenchida automaticamente. Sem digitação, sem erro de <span class="font-mono text-sm bg-neutral-100 px-1.5 py-0.5 rounded">45662</span>.</p>
+      <p><strong>Complexidade do modelo</strong> (Simples / Complexo / Muito complexo) muda a meta do ciclo automaticamente — 25, 35 ou 40 dias. Ela marca em 1 toque.</p>
+      <p>Cada etapa mostra a <strong>meta em dias</strong> e o quanto está acima ou abaixo, ao vivo. Erro impossível de esconder.</p>
       <p>Observação pode ser <strong>ditada por voz</strong> direto do celular, mesmo no chão de fábrica.</p>
       <p>Exceções (voltar piloto pra modelagem, pular compra de tecido) são <strong>botões óbvios</strong>, não menus escondidos.</p>
     </div>
@@ -374,8 +448,9 @@
       <div class="text-xs font-semibold text-indigo-700 uppercase tracking-wide mb-2">Experimente</div>
       <ol class="text-sm text-indigo-900 space-y-1.5 list-decimal list-inside">
         <li>Toque em qualquer modelo da lista</li>
+        <li>Toque no <strong>selo de complexidade</strong> pra trocar (muda a meta)</li>
         <li>Toque em "Concluir etapa" em uma das etapas ativas</li>
-        <li>Veja o modelo avançar automaticamente</li>
+        <li>Veja o SLA da coleção atualizar em tempo real</li>
       </ol>
     </div>
   </div>
@@ -421,12 +496,19 @@
                 <div class="w-2 h-14 rounded-full shrink-0"
                   :class="m.status==='atrasado' ? 'bg-red-500' : m.status==='risco' ? 'bg-amber-500' : 'bg-emerald-500'"></div>
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-baseline gap-2">
+                  <div class="flex items-baseline gap-2 flex-wrap">
                     <div class="font-semibold truncate" x-text="m.nome"></div>
                     <div class="text-xs text-neutral-400 num shrink-0" x-text="m.ref"></div>
                   </div>
-                  <div class="text-sm text-neutral-600 truncate mt-0.5">
+                  <div class="text-sm text-neutral-600 truncate mt-0.5 flex items-center gap-1.5">
                     <span x-text="m.etapa"></span>
+                    <span x-show="m.complexidade" class="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded shrink-0"
+                      :class="{
+                        'bg-emerald-100 text-emerald-700': complexCor(m.complexidade)==='emerald',
+                        'bg-amber-100 text-amber-700':     complexCor(m.complexidade)==='amber',
+                        'bg-rose-100 text-rose-700':       complexCor(m.complexidade)==='rose',
+                      }"
+                      x-text="complexLabel(m.complexidade)"></span>
                   </div>
                   <div class="text-xs mt-1 flex items-center gap-2">
                     <span :class="m.status==='atrasado' ? 'text-red-600 font-semibold' : m.status==='risco' ? 'text-amber-600 font-semibold' : 'text-neutral-500'">
@@ -441,6 +523,47 @@
                 <svg class="w-4 h-4 text-neutral-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
               </button>
             </template>
+          </div>
+        </div>
+
+        <!-- Modal de troca de complexidade -->
+        <div x-show="complexModal" class="absolute inset-0 bg-black/40 z-20 flex items-end" x-transition.opacity>
+          <div @click.away="complexModal = null" class="w-full bg-white rounded-t-3xl p-5 pb-8" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0">
+            <div class="w-10 h-1 bg-neutral-200 rounded-full mx-auto mb-4"></div>
+            <div class="text-center mb-4">
+              <div class="text-sm font-semibold">Nível de complexidade</div>
+              <div class="text-xs text-neutral-500 mt-1">Define a meta de dias do ciclo</div>
+            </div>
+            <div class="space-y-2">
+              <template x-for="[tipo, config] in Object.entries(metasComplexidade)" :key="tipo">
+                <button @click="mudarComplexidade(tipo)" class="w-full flex items-center gap-3 p-3 rounded-xl border-2 transition"
+                  :class="{
+                    'border-emerald-500 bg-emerald-50': selecionado?.complexidade===tipo && config.cor==='emerald',
+                    'border-amber-500 bg-amber-50':     selecionado?.complexidade===tipo && config.cor==='amber',
+                    'border-rose-500 bg-rose-50':       selecionado?.complexidade===tipo && config.cor==='rose',
+                    'border-neutral-200':               selecionado?.complexidade!==tipo,
+                  }">
+                  <div class="w-3 h-3 rounded-full"
+                    :class="{
+                      'bg-emerald-500': config.cor==='emerald',
+                      'bg-amber-500':   config.cor==='amber',
+                      'bg-rose-500':    config.cor==='rose',
+                    }"></div>
+                  <div class="flex-1 text-left">
+                    <div class="font-semibold text-sm" x-text="config.label"></div>
+                    <div class="text-xs text-neutral-500 num" x-text="'Meta ciclo: ' + config.dias + ' dias'"></div>
+                  </div>
+                  <svg x-show="selecionado?.complexidade===tipo" class="w-5 h-5"
+                    :class="{
+                      'text-emerald-500': config.cor==='emerald',
+                      'text-amber-500':   config.cor==='amber',
+                      'text-rose-500':    config.cor==='rose',
+                    }"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                </button>
+              </template>
+            </div>
+            <button @click="complexModal = null" class="w-full mt-4 py-3 rounded-xl bg-neutral-100 text-neutral-700 font-medium text-sm">Cancelar</button>
           </div>
         </div>
 
@@ -461,6 +584,44 @@
 
           <template x-if="selecionado">
             <div class="pb-24">
+              <!-- Complexidade + SLA card -->
+              <div class="px-4 py-3 border-b border-neutral-100"
+                :class="{
+                  'bg-emerald-50/60': complexCor(selecionado.complexidade)==='emerald',
+                  'bg-amber-50/60':   complexCor(selecionado.complexidade)==='amber',
+                  'bg-rose-50/60':    complexCor(selecionado.complexidade)==='rose',
+                }">
+                <div class="flex items-center justify-between mb-2">
+                  <button @click="complexModal = true" class="flex items-center gap-2 hover:opacity-80 active:opacity-70">
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full"
+                      :class="{
+                        'bg-emerald-200 text-emerald-900': complexCor(selecionado.complexidade)==='emerald',
+                        'bg-amber-200 text-amber-900':     complexCor(selecionado.complexidade)==='amber',
+                        'bg-rose-200 text-rose-900':       complexCor(selecionado.complexidade)==='rose',
+                      }"
+                      x-text="complexLabel(selecionado.complexidade)"></span>
+                    <span class="text-xs text-neutral-600">meta <span class="font-semibold num" x-text="complexDias(selecionado.complexidade)"></span>d</span>
+                    <svg class="w-3 h-3 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                  </button>
+                  <div class="text-xs font-semibold"
+                    :class="statusSLA(selecionado)==='estourado' ? 'text-red-600' : statusSLA(selecionado)==='apertado' ? 'text-amber-600' : 'text-emerald-600'">
+                    <span x-show="statusSLA(selecionado)==='estourado'" x-text="Math.abs(diasRestantes(selecionado)) + 'd estourado'"></span>
+                    <span x-show="statusSLA(selecionado)==='apertado'" x-text="diasRestantes(selecionado) + 'd restantes'"></span>
+                    <span x-show="statusSLA(selecionado)==='folga'" x-text="diasRestantes(selecionado) + 'd de folga'"></span>
+                  </div>
+                </div>
+                <!-- Barra de progresso ciclo -->
+                <div class="h-1.5 bg-white/70 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all"
+                    :class="statusSLA(selecionado)==='estourado' ? 'bg-red-500' : statusSLA(selecionado)==='apertado' ? 'bg-amber-500' : 'bg-emerald-500'"
+                    :style="'width: ' + Math.min(100, pctCiclo(selecionado)) + '%'"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-neutral-500 mt-1">
+                  <span><span class="num" x-text="selecionado.diasCorridos"></span> dias corridos</span>
+                  <span>Ciclo total: <span class="num" x-text="complexDias(selecionado.complexidade)"></span>d</span>
+                </div>
+              </div>
+
               <!-- Info -->
               <div class="px-6 py-4 bg-neutral-50 border-b border-neutral-100 grid grid-cols-3 gap-3 text-center">
                 <div>
@@ -503,10 +664,25 @@
                             x-text="e.nome"></div>
                           <div class="text-xs" :class="e.status==='atrasado' ? 'text-red-600 font-semibold' : 'text-neutral-500'"
                             x-text="e.status==='concluido' ? 'concluído ' + e.dataReal : e.status==='atrasado' ? e.diasAtraso + ' dias atrasado' : e.status==='atual' ? 'em andamento' : ''"></div>
+                          <!-- Meta da etapa -->
+                          <span x-show="metaEtapa(e.nome) !== null && e.status !== 'pendente'" class="text-[10px] uppercase font-semibold text-neutral-500 num">
+                            meta <span x-text="metaEtapa(e.nome)"></span>d
+                          </span>
+                          <!-- Delta real vs meta para etapas concluídas -->
+                          <span x-show="e.status==='concluido' && metaEtapa(e.nome) !== null && e.diasAtraso" class="text-[10px] uppercase font-bold text-red-600 num">
+                            +<span x-text="e.diasAtraso"></span>d
+                          </span>
+                          <span x-show="e.status==='atrasado' && metaEtapa(e.nome) !== null" class="text-[10px] uppercase font-bold text-red-600 num">
+                            +<span x-text="e.diasAtraso"></span>d meta
+                          </span>
                         </div>
                         <div class="text-xs text-neutral-500 mt-0.5" x-show="e.responsavel && e.status !== 'pendente'">
                           <span x-text="e.responsavel"></span>
                           <template x-if="e.previsto"><span> · previsto <span x-text="e.previsto"></span></span></template>
+                        </div>
+                        <!-- Meta pra etapas pendentes -->
+                        <div x-show="e.status==='pendente' && metaEtapa(e.nome) !== null" class="text-xs text-neutral-400 mt-0.5 num">
+                          Meta: <span x-text="metaEtapa(e.nome)"></span> <span x-text="metaEtapa(e.nome)===1 ? 'dia' : 'dias'"></span>
                         </div>
                         <div x-show="e.obs" class="mt-2 text-xs text-neutral-600 bg-neutral-50 rounded-lg p-2" x-text="e.obs"></div>
 
@@ -666,10 +842,43 @@ function app() {
       { id: 'aprovacao', label: 'Aprovação', count: 2 },
     ],
 
+    // Metas configuradas pelo Luiz (base para cálculo automático de status)
+    metasComplexidade: {
+      'Simples':       { dias: 25, label: 'Simples',        cor: 'emerald' },
+      'Complexo':      { dias: 35, label: 'Complexo',       cor: 'amber'   },
+      'MuitoComplexo': { dias: 40, label: 'Muito complexo', cor: 'rose'    },
+    },
+
+    metasEtapa: {
+      'Desenvolvimento':  3,
+      'Modelagem':        5,
+      'Cortadora piloto': 1,
+      'Pilotagem':        3,
+      'Aprovação':        3,
+      'Compra tecido':    null,
+      'Recebimento':      null,
+      'Corte':            2,
+      'Costura':         15,
+      'Estamparia':      10,
+      'Acabamento':       2,
+      'Revisão':          1,
+      'Liberado':         0,
+    },
+
+    // Composição da coleção por complexidade — "arma" do Luiz pra conversar com Estilo
+    composicao: [
+      { tipo: 'Simples',       modelos: 26, valor: 53742, mediaDias: 22, cor: 'emerald' },
+      { tipo: 'Complexo',      modelos: 13, valor: 75758, mediaDias: 31, cor: 'amber'   },
+      { tipo: 'MuitoComplexo', modelos: 13, valor: 21619, mediaDias: 38, cor: 'rose'    },
+    ],
+
+    complexModal: null, // controla o modal de troca de complexidade
+
     // Dados reais da planilha do Luiz
     modelos: [
       {
         ref: 1723, nome: 'VESTIDO ALÍCIA', qnt: 93, consumo: 2.17, valorMetro: 22.36,
+        complexidade: 'Complexo', diasCorridos: 38,
         etapa: 'Pilotagem', status: 'atrasado', diasAtraso: 5, diasEtapa: 9,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '17/02', previsto: '17/02' },
@@ -687,6 +896,7 @@ function app() {
       },
       {
         ref: 1913, nome: 'BLUSA IZA', qnt: 120, consumo: 1.22, valorMetro: 10.50,
+        complexidade: 'Simples', diasCorridos: 22,
         etapa: 'Modelagem (retorno)', status: 'atrasado', diasAtraso: 3, diasEtapa: 6,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '06/03', previsto: '06/03' },
@@ -702,6 +912,7 @@ function app() {
       },
       {
         ref: 1917, nome: 'VESTIDO AGATHA', qnt: 95, consumo: 2.44, valorMetro: 4.20,
+        complexidade: 'MuitoComplexo', diasCorridos: 44,
         etapa: 'Corte', status: 'atrasado', diasAtraso: 4, diasEtapa: 7,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '07/01', previsto: '07/01' },
@@ -719,6 +930,7 @@ function app() {
       },
       {
         ref: 1704, nome: 'AQUETA ALÍCIA', qnt: 60, consumo: 1.57, valorMetro: 22.36,
+        complexidade: 'Simples', diasCorridos: 12,
         etapa: 'Modelagem', status: 'risco', diasEtapa: 4,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '14/01', previsto: '14/01' },
@@ -730,6 +942,7 @@ function app() {
       },
       {
         ref: 1877, nome: 'SAIA MIDI ALBA', qnt: 90, consumo: 2.24, valorMetro: 12.90,
+        complexidade: 'Simples', diasCorridos: 18,
         etapa: 'Pilotagem', status: 'ok', diasEtapa: 2,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '22/11', previsto: '22/11' },
@@ -741,6 +954,7 @@ function app() {
       },
       {
         ref: 1872, nome: 'CALÇA HELOISA', qnt: 143, consumo: 1.85, valorMetro: 27.00,
+        complexidade: 'Complexo', diasCorridos: 28,
         etapa: 'Costura', status: 'ok', diasEtapa: 3,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '08/12', previsto: '08/12' },
@@ -758,6 +972,7 @@ function app() {
       },
       {
         ref: 1875, nome: 'BLUSA MARIA CLARA', qnt: 100, consumo: 0.71, valorMetro: 28.51,
+        complexidade: 'Simples', diasCorridos: 14,
         etapa: 'Aprovação', status: 'ok', diasEtapa: 1,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '06/11', previsto: '06/11' },
@@ -769,6 +984,7 @@ function app() {
       },
       {
         ref: 1918, nome: 'VESTIDO BALONÊ LIZ', qnt: 120, consumo: 2.24, valorMetro: 8.75,
+        complexidade: 'MuitoComplexo', diasCorridos: 32,
         etapa: 'Aprovação', status: 'ok', diasEtapa: 2,
         etapas: [
           { nome: 'Desenvolvimento',   status: 'concluido', responsavel: 'Ana Paula',  dataReal: '19/02', previsto: '19/02' },
@@ -783,11 +999,11 @@ function app() {
     // Modelos críticos pro dashboard
     get criticos() {
       return [
-        { ref: 1723, nome: 'VESTIDO ALÍCIA',   etapa: 'Pilotagem',       diasEtapa: 9, previsto: '15/07', valorParado: 4512.11, severidade: 'alta' },
-        { ref: 1917, nome: 'VESTIDO AGATHA',   etapa: 'Corte',  diasEtapa: 7, previsto: '18/07', valorParado: 973.56,  severidade: 'alta' },
-        { ref: 1913, nome: 'BLUSA IZA',        etapa: 'Modelagem',       diasEtapa: 6, previsto: '20/07', valorParado: 1537.20, severidade: 'alta' },
-        { ref: 1704, nome: 'AQUETA ALÍCIA',    etapa: 'Modelagem',       diasEtapa: 4, previsto: '22/07', valorParado: 2105.65, severidade: 'media' },
-        { ref: 1918, nome: 'VESTIDO BALONÊ',   etapa: 'Aprovação',       diasEtapa: 3, previsto: '19/07', valorParado: 2352.00, severidade: 'media' },
+        { ref: 1723, nome: 'VESTIDO ALÍCIA',   complexidade: 'Complexo',      etapa: 'Pilotagem', diasEtapa: 9, previsto: '15/07', valorParado: 4512.11, severidade: 'alta' },
+        { ref: 1917, nome: 'VESTIDO AGATHA',   complexidade: 'MuitoComplexo', etapa: 'Corte',     diasEtapa: 7, previsto: '18/07', valorParado: 973.56,  severidade: 'alta' },
+        { ref: 1913, nome: 'BLUSA IZA',        complexidade: 'Simples',       etapa: 'Modelagem', diasEtapa: 6, previsto: '20/07', valorParado: 1537.20, severidade: 'alta' },
+        { ref: 1704, nome: 'AQUETA ALÍCIA',    complexidade: 'Simples',       etapa: 'Modelagem', diasEtapa: 4, previsto: '22/07', valorParado: 2105.65, severidade: 'media' },
+        { ref: 1918, nome: 'VESTIDO BALONÊ',   complexidade: 'MuitoComplexo', etapa: 'Aprovação', diasEtapa: 3, previsto: '19/07', valorParado: 2352.00, severidade: 'media' },
       ]
     },
 
@@ -828,6 +1044,52 @@ function app() {
       if (this.selecionado.etapas[i+1]) {
         this.selecionado.etapas[i+1].status = 'atual'
       }
+    },
+
+    // Helpers de complexidade
+    complexLabel(c) { return this.metasComplexidade[c]?.label || c },
+    complexDias(c)  { return this.metasComplexidade[c]?.dias || 0 },
+    complexCor(c)   { return this.metasComplexidade[c]?.cor || 'neutral' },
+
+    // Meta de dias por etapa (retorna null se não aplicável)
+    metaEtapa(nome) { return this.metasEtapa[nome] ?? null },
+
+    // SLA: quantos dias faltam pra estourar a meta total
+    diasRestantes(m) {
+      if (!m || !m.complexidade) return null
+      const meta = this.complexDias(m.complexidade)
+      return meta - (m.diasCorridos || 0)
+    },
+
+    // Status do SLA total ('folga' | 'apertado' | 'estourado')
+    statusSLA(m) {
+      const r = this.diasRestantes(m)
+      if (r === null) return 'folga'
+      if (r < 0) return 'estourado'
+      if (r <= 3) return 'apertado'
+      return 'folga'
+    },
+
+    // Percentual de conclusão do ciclo
+    pctCiclo(m) {
+      if (!m || !m.complexidade) return 0
+      const meta = this.complexDias(m.complexidade)
+      return Math.min(100, Math.round((m.diasCorridos || 0) / meta * 100))
+    },
+
+    // Muda complexidade do modelo selecionado
+    mudarComplexidade(novaComplex) {
+      if (this.selecionado) {
+        this.selecionado.complexidade = novaComplex
+      }
+      this.complexModal = null
+    },
+
+    // Composição totais
+    get composicaoTotais() {
+      const totalMod = this.composicao.reduce((s, c) => s + c.modelos, 0)
+      const totalVal = this.composicao.reduce((s, c) => s + c.valor, 0)
+      return { totalMod, totalVal }
     }
   }
 }
